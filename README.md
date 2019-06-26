@@ -142,7 +142,7 @@ For scalar types, you can just add a field to a type in your schema - and GraphQ
 
 The `!` behind `ID` simply means that the field is non-nullable.
 
-### a) Add the field `alligiances`to the `Character`type. Use GraphiQL to find alligiances of all characters.
+### a) Add the field `allegiances`to the `Character`type. Use GraphiQL to find allegiances of all characters.
 
 ### b) [Frontend] Add image for each character in `Characters.js`
 
