@@ -150,8 +150,6 @@ The `!` behind `ID` simply means that the field is non-nullable.
 
 Resolvers are responsible for mapping the operations to actual functions. For the `Character` type, there is already defined one resolver - the one that resolved your query for siblings earlier.
 
-### JS
-
 With Javascript it would look something like this:
 
 ```js
@@ -186,8 +184,6 @@ type Query {
   character(name: String): Character
 }
 ```
-
-### JS
 
 Now we will make use of the `args` argument. Adding a `character` resolver like below, will allow you to query a specific character by name.
 
