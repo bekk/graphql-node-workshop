@@ -1,5 +1,5 @@
 import React from 'react';
-import { Query } from 'react-apollo';
+import { useQuery } from '@apollo/react-hooks';
 import { GET_CHARACTERS } from './queries';
 import { withRouter, Link } from 'react-router-dom';
 
@@ -19,24 +19,18 @@ const View = ({ characters }) => {
   );
 };
 
-class Characters extends React.Component {
-  render() {
-    return (
-      <Query query={GET_CHARACTERS}>
-        {({ loading, error, data }) => {
-          if (loading) {
-            return <h1>Laster...</h1>;
-          }
+function Characters() {
+  const { loading, error, data } = useQuery(GET_CHARACTERS);
 
-          if (error) {
-            return <h1>Error!</h1>;
-          }
-
-          return <View characters={data.characters} />;
-        }}
-      </Query>
-    );
+  if (loading) {
+    return <h1>Laster...</h1>;
   }
+
+  if (error) {
+    return <h1>Error!</h1>;
+  }
+
+  return <View characters={data.characters} />;
 }
 
 export default withRouter(Characters);
