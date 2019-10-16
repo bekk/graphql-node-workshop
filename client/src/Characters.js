@@ -19,7 +19,7 @@ const View = ({ characters }) => {
   );
 };
 
-function Characters() {
+const Characters = () => {
   const { loading, error, data } = useQuery(GET_CHARACTERS);
 
   if (loading) {
@@ -31,6 +31,6 @@ function Characters() {
   }
 
   return <View characters={data.characters} />;
-}
+};
 
 export default withRouter(Characters);
