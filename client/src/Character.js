@@ -74,19 +74,15 @@ const View = ({ character }) => {
   );
 };
 
-class Character extends React.Component {
-  render() {
-    const paramName = this.props.match.params.name;
+const Character = props => {
+    const paramName = props.match.params.name;
 
-    // ToDo: Task 3d - get character from GraphQL server by 'paramName' from URL
     const character = {
-      name: 'Unknown',
-      titles: [],
-      image: undefined
+        name: 'Unknown',
+        titles: [],
+        image: undefined
     };
-
     return <View character={character} />;
-  }
-}
+};
 
 export default withRouter(Character);
