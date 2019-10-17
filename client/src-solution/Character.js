@@ -1,51 +1,46 @@
 import React, { useState } from 'react';
-import { Query, Mutation } from 'react-apollo';
+import { useQuery, useMutation } from '@apollo/react-hooks';
 import { withRouter } from 'react-router-dom';
 import { ADD_CHARACTER_TITLE, GET_CHARACTER, PUSH_CHARACTER } from './queries';
 
 const Push = ({ name }) => {
+  const [pushFromWindow] = useMutation(PUSH_CHARACTER);
+
   return (
-    <Mutation mutation={PUSH_CHARACTER}>
-      {pushFromWindow => (
-        <button
-          className="button-bad"
-          onClick={() => {
-            pushFromWindow({ variables: { name } });
-            window.location.reload();
-          }}
-        >
-          Push
-        </button>
-      )}
-    </Mutation>
+    <button
+      className="button-bad"
+      onClick={() => {
+        pushFromWindow({ variables: { name } });
+        window.location.reload();
+      }}
+    >
+      Push
+    </button>
   );
 };
 
 const AddTitle = ({ name }) => {
   const [titleInput, setTitleInput] = useState('');
+  const [addTitle] = useMutation(ADD_CHARACTER_TITLE);
 
   return (
-    <Mutation mutation={ADD_CHARACTER_TITLE}>
-      {addTitle => (
-        <div>
-          <input
-            type="text"
-            placeholder="Title..."
-            value={titleInput}
-            onChange={event => setTitleInput(event.currentTarget.value)}
-          />
-          <button
-            className="button-good"
-            onClick={() => {
-              addTitle({ variables: { name, title: titleInput } });
-              window.location.reload();
-            }}
-          >
-            Add title
-          </button>
-        </div>
-      )}
-    </Mutation>
+    <div>
+      <input
+        type="text"
+        placeholder="Title..."
+        value={titleInput}
+        onChange={event => setTitleInput(event.currentTarget.value)}
+      />
+      <button
+        className="button-good"
+        onClick={() => {
+          addTitle({ variables: { name, title: titleInput } });
+          window.location.reload();
+        }}
+      >
+        Add title
+      </button>
+    </div>
   );
 };
 
@@ -80,26 +75,19 @@ const View = ({ character }) => {
   );
 };
 
-class Character extends React.Component {
-  render() {
-    const paramName = this.props.match.params.name;
+const Character = props => {
+  const paramName = props.match.params.name;
+  const { loading, error, data } = useQuery(GET_CHARACTER, { variables: { name: paramName } });
 
-    return (
-      <Query query={GET_CHARACTER} variables={{ name: paramName }}>
-        {({ loading, error, data }) => {
-          if (loading) {
-            return <h1>Laster...</h1>;
-          }
-
-          if (error) {
-            return <h1>Error!</h1>;
-          }
-
-          return <View character={data.character} />;
-        }}
-      </Query>
-    );
+  if (loading) {
+    return <h1>Laster...</h1>;
   }
-}
+
+  if (error) {
+    return <h1>Error!</h1>;
+  }
+
+  return <View character={data.character} />;
+};
 
 export default withRouter(Character);
