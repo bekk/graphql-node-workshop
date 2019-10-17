@@ -226,7 +226,7 @@ type Mutation {
 }
 ```
 
-### a) Implement the `pushFromWindow` mutation. This includes changes to both schema and resolver.
+### a) Implement the `pushFromWindow` mutation. This includes changes to both schema and resolver. This mutation should set the `isHealthy` field to false for the given character 
 
 ### b) [Frontend] Implement the `pushFromWindow` mutation in the `Push`-component in `Character.js`. Use `@apollo/react-hooks`'s `useMutation`-hook. Useful documentation can be found here: https://www.apollographql.com/docs/react/essentials/mutations/
 
