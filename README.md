@@ -1,14 +1,14 @@
 # GraphQL Workshop
 
-The master of whisperers is starting to lose track of all the comings and goings in Westeros. He has decides to build an GraphQL API to keep track, and has demanded that you help him.
+The master of whisperers is starting to lose track of all the comings and goings in Westeros. He has decided to build a GraphQL API to keep track, and has demanded that you help him.
 
 Good luck!
 
 ## Introduction
 
-GraphQL is an open-source data query language for API's, and a runtime for fulfilling those queries with existing data. It represent a new way to think about API's compared to traditional methods like REST. This workshop will give you hands-on experience using GraphQL to master common API operations.
+GraphQL is an open-source data query language for APIs, and a runtime for fulfilling those queries with existing data. It represents a new way to think about APIs compared to traditional methods like REST. This workshop will give you hands-on experience using GraphQL to master common API operations.
 
-We will cover basic topics like fetching data from a GraphQL server using queries and mutations, writing schemas to describe what data can be queried and getting to know the schema type system. At the end of the workshop you will be well equipped to start implementing a new, or to query an existing, GraphQL API.
+We will cover basic topics like fetching data from a GraphQL server using queries and mutations, writing schemas to describe what data can be queried, and getting to know the schema type system. At the end of the workshop you will be well equipped to implement your own - or query an existing - GraphQL API.
 
 ## Getting started
 
@@ -16,7 +16,7 @@ First, clone this project.
 
 ### Install Node.js
 
-Install Node.js using your favourite package manager, or [download](https://nodejs.org/en/download/) it. The workshop is tested with version 12.1.0, but should also work for older (not to old) versions.
+Install Node.js using your favourite package manager, or [download](https://nodejs.org/en/download/) it. The workshop is tested with version 12.1.0, but should also work for older (not too old) versions.
 
 ### Install dependencies
 
@@ -36,33 +36,50 @@ npm run start
 
 and open [http://localhost:4000](http://localhost:4000) in the browser. All changes to the API will restart the server.
 
-You are now ready to start doing the exercises.
+You are now ready to start the exercises.
 
 ### Project structure
 
-We use the [graphql-yoga](https://github.com/prisma/graphql-yoga), which means that we can focus on the functional parts of a GraphQL server.
+#### Frontend
+
+We use [Apollo Client](https://www.apollographql.com/docs/react/) to consume data from our GraphQL server. The client is designed to help you quickly build a UI that fetches data with GraphQL.
+
+- `client/src/index.js` is the main file of the client and is where Apollo and React are initialized.
+
+- `client/src/queries.js` contains all query definitions used to fetch data from our GraphQL server
+
+- `client/src/Characters.js` displays a list of all Game of Thrones characters available
+
+- `client/src/Character.js` is a detail view of a single character selected from the character list
+
+The folder `client/src-solution` contains a complete solution proposal for all tasks listed below. You may copy content from `client/src-solution` to `client/src` if you prefer not to focus on client tasks. Be sure to check that queries listed in `queries.js` match your server side schema definition.
+
+#### Backend
+
+We use [graphql-yoga](https://github.com/prisma/graphql-yoga), which enables us to focus on the functional parts of setting up a GraphQL server.
 
 To solve the exercises, you only need to make changes to `index.js` and `schema.graphql`.
 
-- `index.js` includes the setup for the GraphQL server, and the implementation of the resolvers. We will use an in memory database, which includes all the files in the `node/data` folder. Import the data needed as done with `characters` in `index.js`. Remember that all changes to the API will restart the server, which means that the in-memory database will be reset as well.
+- `node/index.js` includes the setup for the GraphQL server, and the implementation of the resolvers. We will use an in-memory database, which includes all the files in the `node/data` folder. Import the data needed as done with `characters` in `index.js`. Remember that all changes to the API will restart the server, which means that the in-memory database will be reset as well.
 
-- `schema.js` includes the GraphQL schemas for our API. All changes must be done within the `gql` template string. If there is a mismatch between the resolvers in `index.js` and the schema, the project will not compile.
+- `node/schema.js` includes the GraphQL schemas for our API. All changes must be done within the `gql` template string. If there is a mismatch between the resolvers in `index.js` and the schema, the project will not compile.
 
 ### IDE
 
-If you do not have a preferred IDE for node, you can download [vscode](https://code.visualstudio.com/download). There are multiple extensions available to get GraphQL syntax highlighting, for example https://marketplace.visualstudio.com/items?itemName=Prisma.vscode-graphql.
+If you do not have a preferred IDE for node we recommend [vscode](https://code.visualstudio.com/download). There are multiple extensions available to get GraphQL syntax highlighting, for example https://marketplace.visualstudio.com/items?itemName=Prisma.vscode-graphql.
 
-Your GraphQL server should now be running on [http://localhost:4000](http://localhost:4000). Open the browser, to check that you are running [GraphiQL](https://github.com/graphql/graphiql), which is one of the key benefits of GraphQL. It is an interactive documentation of the GraphQL API, where you can see the Schema, read the autogenerated docs and try out queries with autocomplete. Use it for all it is worth in the excersises.
+Your GraphQL server should now be running on [http://localhost:4000](http://localhost:4000). Open the browser to verify that you are running [GraphiQL](https://github.com/graphql/graphiql), which is one of the key benefits of GraphQL. It is an interactive documentation of the GraphQL API, where you can see the schema, read the autogenerated documentation and try out queries with autocomplete. Use it for all it is worth in the excersises.
 
-We also provide a React client that is set up to consume data exposed from our GraphQL server. All client related tasks are marked with "Frontend" and are not required to finish the workshop. Follow the link below to read installation instructions for the client
+We also provide a React client that is set up to consume data exposed from our GraphQL server. All client related tasks are marked with "Frontend" and are not required to finish the workshop. Follow the link below to read installation instructions for the client:
 
 - [Client (React.js)](/client/README.md)
 
-Your React.js app should now show some html on [http://localhost:3000](http://localhost:3000). Inspecting network requests in your browser Developer Console is a neat trick to do debugging. GraphQL returns great error responses if something is wrong with the network request,
+Your React.js app should now show a simple webpage on [http://localhost:3000](http://localhost:3000).
+A neat trick to debug your application is to inspect the network requests for this page in your browser's developer console. GraphQL returns great error responses if something is wrong with the network request,
 
 ## Task 1 - Basic Queries
 
-The GraphQL query language is basically about selecting fields on objects, which means that the client is now in control. The GraphQL server will return only the fields asked for.
+The GraphQL query language is basically about selecting fields on objects, which means that the client is in control. The GraphQL server will return only the fields asked for.
 
 A query is built hierarchical, with a top-level `query`
 
@@ -74,9 +91,9 @@ query {
 }
 ```
 
-### a) Use the query above to list all character id's in GraphiQL
+### a) Use the query above to list all character ids in GraphiQL.
 
-The client decides which character fields it needs. It can ask for id, name and image like this:
+The client decides which character fields it needs. It can ask for the id, name, and image like this:
 
 ```graphql
 query {
@@ -88,7 +105,7 @@ query {
 }
 ```
 
-### b) Extend the the query from a) to also list the `name` and `image` of each character.
+### b) Extend the query from a) to also list the `name` and `image` of each character.
 
 Nested queries can be used to find information about a characters siblings:
 
@@ -131,19 +148,19 @@ type Character {
 
 The `Character` type defines two fields of type `ID` and `String`. Both are one of the built in scalar types defined by GraphQL. A scalar type resolves to a single scalar object, which can't have sub-selections in a query. The scalar types are:
 
-- Int: A signed 32‐bit integer.
-- Float: A signed double-precision floating-point value.
-- String: A UTF‐8 character sequence.
-- Boolean: `true` or `false`.
-- ID: represents a unique identifier and is serialized in the same way as a String
+- Int: A signed 32‐bit integer
+- Float: A signed double-precision floating-point value
+- String: A UTF‐8 character sequence
+- Boolean: `true` or `false`
+- ID: Represents a unique identifier and is serialized in the same way as a String
 
 For scalar types, you can just add a field to a type in your schema - and GraphQL will resolve it based on matching name in the data set.
 
 The `!` behind `ID` simply means that the field is non-nullable.
 
-### a) Add the field `allegiances`to the `Character`type. Use GraphiQL to find allegiances of all characters.
+### a) Add the field `allegiances` to the `Character` type. Use GraphiQL to find the allegiances of all characters.
 
-### b) [Frontend] Add image for each character in `Characters.js`
+### b) [Frontend] Add an image for each character in `Characters.js`.
 
 ## Task 3 - Resolvers
 
@@ -163,9 +180,9 @@ const Character = {
 
 All resolvers receives the `root` argument, which is the parent beeing resolved. To find all the siblings, the resolver filters all characters using the `siblingIds` list.
 
-### a) Add lovers and spouses to `Character`. Remember to also add it to your schema
+### a) Add lovers and spouses to `Character`. Remember to add it to your schema as well.
 
-Up until now we have queried all characters, but we want to be able to get one specific. The following query should return Bran Stark:
+Up until now we have queried all characters, but we want to be able to get a specific character. The following query should return Bran Stark:
 
 ```graphql
 query {
@@ -184,7 +201,7 @@ type Query {
 }
 ```
 
-Now we will make use of the `args` argument. Adding a `character` resolver like below, will allow you to query a specific character by name.
+Now we will make use of the `args` argument. Adding a `character` resolver like below will allow you to query a specific character by name.
 
 ```js
 const Query = {
@@ -212,13 +229,13 @@ type House {
 
 ### c) Add `House` to the API. Use GraphiQL to list all houses.
 
-### d) It should also be possible to find out which house a character belongs to.
+### d) Add to the API which house a character belongs to.
 
-### e) [Frontend] Get required data for a specific character in `Character.js` using `@apollo/react-hooks`'s `useQuery`-hook. You might need to update your server side GraphQL schema to get all required fields. Useful documentation can be found here: https://www.apollographql.com/docs/react/essentials/queries/
+### e) [Frontend] Get the required data for a specific character in `Character.js` using `@apollo/react-hooks`'s `useQuery`-hook. You might need to update your server side GraphQL schema to get all required fields. Useful documentation can be found here: https://www.apollographql.com/docs/react/essentials/queries/
 
 ## Task 4 - Mutations
 
-Mutations are the second main operation in GraphQL. It deals with creating, deleting and updating data. As with the `Query` type in your schema, you will need to add a `Mutation` type. Lets imagine you are Jaime Lannister, secrets are important to you - sometimes desperate actions are needed:
+Mutations are the second main operation in GraphQL. It deals with creating, updating, and deleting data. As with the `Query` type in your schema, you will need to add a `Mutation` type. Let's imagine you are Jaime Lannister and that secrets are important to you - such that sometimes desperate actions are needed:
 
 ```graphql
 type Mutation {
@@ -226,13 +243,13 @@ type Mutation {
 }
 ```
 
-### a) Implement the `pushFromWindow` mutation. This includes changes to both schema and resolver. This mutation should set the `isHealthy` field to false for the given character 
+### a) Implement the `pushFromWindow` mutation. This includes changes to both schema and resolver. This mutation should set the `isHealthy` field to false for the given character.
 
 ### b) [Frontend] Implement the `pushFromWindow` mutation in the `Push`-component in `Character.js`. Use `@apollo/react-hooks`'s `useMutation`-hook. Useful documentation can be found here: https://www.apollographql.com/docs/react/essentials/mutations/
 
-It is not just in Westeros the action is happening. Across the Narrow Sea, an important wedding is taking place. The ruggedly handsome Khal Drogo is marrying the beautiful Daenerys Targaryen.
+It is not just in Westeros the action is happening. Across the Narrow Sea an important wedding is taking place. The ruggedly handsome Khal Drogo is marrying the beautiful Daenerys Targaryen.
 
-### c) Make sure the wedding takes place. Create a mutation taking two names as arguments.
+### c) Make sure the wedding takes place. Create a mutation which takes two names as arguments.
 
 ```graphql
 type Mutation {
@@ -243,10 +260,10 @@ type Mutation {
 
 Although the claim may be poor, Joffrey Baratheon manages to be crowned King of the Seven Kingdoms. We have to make sure our API keeps track.
 
-### d) Give King Joffrey the titles: the First of His Name, King of the Andals and the First Men, Lord of the Seven Kingdoms, and Protector of the Realm
+### d) Give King Joffrey the following titles: The First of His Name, King of the Andals and the First Men, Lord of the Seven Kingdoms, and Protector of the Realm.
 
 ### e) [Frontend] Make it possible to add titles to a character by implementing a mutation in the `AddTitle`-component in `Character.js`
 
 ## Bonus task
 
-Add seat to all the the houses. To do this you need to define a `Castle` type with the necessary fields (check the data set).
+### a) Add the seats to all the houses. To do this you need to define a `Castle` type with the necessary fields (check the data set).
